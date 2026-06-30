@@ -82,38 +82,34 @@ Using Hierarchical Agglomerative Clustering on the 3D PCA space, the customer ba
 
 ```carousel
 #### 👨‍👩‍👧‍👦 Cluster 0: Partnered / Mid-Income Families (40.7% of customers)
-*   **Profile**: Married or cohabiting couples with multiple kids. They have moderate incomes, visit the site frequently, but keep their average spending low.
-*   **Strategy**: Focus on value-driven offers. Promote family bundle deals, discount campaigns (like back-to-school), and loyalty rewards to convert their frequent web visits into purchases.
+This segment represents couples with multiple kids at home. They have moderate household incomes, visit the web store frequently, but keep their average spending low per visit. The best way to engage them is through value-driven marketing: promote family bundle deals, seasonal discounts (such as back-to-school), and loyalty programs that incentivize converting their frequent browsing into purchases.
 <!-- slide -->
 #### 💎 Cluster 1: High-Income Couples (23.9% of customers)
-*   **Profile**: Partnered households with few or no children at home. They have the highest average income and are the biggest spenders, buying heavily from physical stores and catalogs.
-*   **Strategy**: Enroll them in a premium VIP loyalty tier. Target them with high-end wines and gold products. Offer premium delivery, exclusive early access, and personalized concierge offers.
+These are partnered households with few or no children at home. They represent our highest income group and are the biggest spenders, buying heavily from physical stores and catalogs. Because they value quality and convenience over discounts, we should target them with a premium VIP loyalty tier, market premium items like wine and gold products directly, and offer concierge services or exclusive early access previews.
 <!-- slide -->
 #### 🙋‍♂️ Cluster 2: Single Budget Shoppers (19.9% of customers)
-*   **Profile**: Single-parent or solo households with lower incomes and very low spending, but the highest web visit rates.
-*   **Strategy**: Target them with budget-focused retargeting ads, free shipping codes, and flexible payment options (like Buy Now, Pay Later) to reduce cart abandonment.
+This segment is made up of single-parent or solo households with lower incomes. They spend the least per visit but have the highest web visit rates. To lower their cart abandonment rates, we should use retargeting ads highlighting budget-friendly entry products, free shipping codes, or flexible checkout options like 'Buy Now, Pay Later'.
 <!-- slide -->
 #### 🕶️ Cluster 3: Affluent Singles (15.5% of customers)
-*   **Profile**: Solo buyers with high incomes, low children count, and very high spending. They also show the highest conversion rate on marketing campaigns.
-*   **Strategy**: Target them with direct digital channels (personalized email/mobile recommendations). Run time-limited flash sales on high-end gadgets and boutique items to play into their high campaign response rate.
+These are solo buyers with high disposable incomes, few/no kids, and very high spending. Notably, they show the highest conversion rate on marketing campaigns. To capture their attention, we should use direct digital channels with personalized email recommendations, digital flash sales, and targeted social media ads for high-end or trending items.
 ```
 
 ---
 
 ## Future Roadmap: Ideas to Improve Performance
 
-If I were taking this model to production, here are the main steps I would take next to improve both clustering quality and execution speed:
+If I were taking this project further, here is my planned roadmap to improve the customer segments and optimize the code performance:
 
-### 1. Model & Feature Improvements
-*   **Soft Clustering with GMMs:** K-Means forces every customer into a single cluster. Using Gaussian Mixture Models (GMM) would give us "soft clustering," representing a customer's probability of belonging to multiple groups (which is much closer to real shopping behaviors).
-*   **DBSCAN for Auto-Outlier Detection:** Rather than setting hard, manual cutoffs for age and income, running DBSCAN or HDBSCAN would automatically detect noise points and outliers based on density.
-*   **UMAP for Projection:** PCA is linear. If the customer relationships are non-linear, projecting down to 3D space using UMAP (Uniform Manifold Approximation and Projection) or t-SNE would likely reveal cleaner, more distinct visual boundaries.
-*   **Better Financial Ratios:** I'd like to create features like "Discretionary Spending Ratio" (spending relative to income) or "Web Conversion Rate" (purchases divided by monthly visits) to give the models stronger signals to group on.
+### Analytical Roadmap
+*   **Transition to Soft Clustering with GMMs:** K-Means enforces hard boundaries, forcing every customer into a single cluster. In reality, shopper profiles are fluid. Implementing a Gaussian Mixture Model (GMM) would assign membership probabilities across multiple segments, giving a much more realistic picture of customer habits.
+*   **Density-Based Clustering (DBSCAN):** Rather than setting hard manual thresholds to filter outliers (like age < 90 or income < $600k), DBSCAN or HDBSCAN would automatically treat low-density noise points as outliers, making the boundaries cleaner and more statistically sound.
+*   **UMAP for Projection:** PCA is a linear projection and can miss complex, non-linear relationships. Switching to UMAP (Uniform Manifold Approximation and Projection) or t-SNE would help preserve local structures and could yield clearer cluster separations.
+*   **Engaging Financial Ratios:** Adding engineered indicators like a "Discretionary Spending Ratio" (total spend relative to income) or "Purchase Conversion Rate" (purchases divided by web visits) would give the model stronger indicators of buyer intent.
 
-### 2. Code & Architecture Optimizations
-*   **Full Pipeline Implementation:** Wrapping the preprocessing, scaling, and PCA steps into a scikit-learn `Pipeline` or `ColumnTransformer`. This prevents data leakage and makes it incredibly easy to deploy the model to a production API endpoint.
-*   **Reduce Memory Usage:** Downcasting numeric data types (e.g., converting `float64` to `float32` and `int64` to `int32`). This is a quick win to minimize the memory footprint if the dataset scales to millions of rows.
-*   **Parallel Computing:** Adding `n_jobs=-1` to K-Means configuration so scikit-learn uses all available CPU cores when calculating cluster distances.
+### Code & System Roadmap
+*   **Unified Pipeline Implementation:** I want to wrap the entire preprocessing, scaling, and PCA steps into a scikit-learn `Pipeline` or `ColumnTransformer`. This prevents data leakage during validation and makes it simple to wrap the model in a clean web API endpoint.
+*   **Reduce Memory Footprint:** If the customer database scales to millions of rows, downcasting numeric columns (like converting `float64` to `float32` and `int64` to `int32`) will keep the memory usage low.
+*   **Distributing Computation:** Setting `n_jobs=-1` on distance-based models would run operations across all available CPU cores, boosting speed during hyperparameter searches.
 
 ---
 
