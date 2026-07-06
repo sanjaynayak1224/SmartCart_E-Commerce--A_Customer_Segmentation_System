@@ -64,6 +64,15 @@ To find the optimal number of segments, I evaluated K-Means across a range of $K
   * **PC3 (10.41% variance)** captures customer tenure and specific product interests.
   Together, they let me compress **44.96%** of the total variance into a clean 3D space, making visualization and grouping much more effective.
 
+### ⚠️ Why Other Clustering Algorithms Were Excluded
+
+To ensure the best possible marketing segmentation, I evaluated other popular clustering techniques but excluded them due to specific architectural and business limitations:
+
+* **DBSCAN (Density-Based Clustering)**: While great at handling noise and arbitrary shapes, DBSCAN struggles with clusters of varying densities. For customer profiles—where some personas are tightly grouped (e.g., budget-conscious families) and others are sparsely distributed—DBSCAN often struggles to find a single epsilon ($\epsilon$) parameter, either merging distinct groups or labeling too many valid customers as "noise" (outliers) that marketing cannot target.
+* **Gaussian Mixture Models (GMM)**: GMMs perform soft clustering by assuming data points are generated from a mixture of Gaussian distributions. However, they are highly sensitive to initialization, computationally expensive, and can easily overfit or fail to converge on smaller datasets with high-dimensional feature boundaries.
+* **Spectral Clustering**: This method maps data to a lower-dimensional space using graph theory. It has a high computational complexity of $O(N^3)$, making it highly unscalable for larger customer databases, and its output clusters are notoriously difficult to interpret for business/marketing applications compared to centroid-based clusters.
+* **Agglomerative Hierarchical Clustering (as a standalone primary algorithm)**: While useful for visualizing sub-clusters (dendrograms) and profiling centroids, it suffers from $O(N^2 \log N)$ time and $O(N^2)$ space complexity. It lacks the mathematical efficiency of K-Means for larger customer bases and cannot re-assign points once they are grouped in a hierarchy level.
+
 ---
 
 ## 👥 Customer Personas & Marketing Playbook
