@@ -13,17 +13,7 @@ An unsupervised machine learning project I built to group e-commerce customers b
 
 The project follows a standard unsupervised learning workflow, from initial data cleaning to final persona profiling:
 
-```mermaid
-graph TD
-    A[Raw Customer E-Commerce Data] --> B[Data Cleaning & Imputation]
-    B --> C[Feature Engineering - Total Spend, Tenure, Kids]
-    C --> D[Outlier Filtering - Age/Income Limits]
-    D --> E[One-Hot Encoding & Standard Scaling]
-    E --> F[PCA - Dimensionality Reduction to 3D]
-    F --> G[K-Means Clustering - K Selection]
-    G --> H[Hierarchical Agglomerative Clustering]
-    H --> I[Customer Persona Identification]
-```
+![The Pipeline & Clustering Workflow](end_to_end_ml_pipeline.png)
 
 ### Behind the Scenes: How the Pipeline is Built
 
@@ -56,6 +46,8 @@ To find the optimal number of segments, I evaluated K-Means across a range of $K
 | 9 | 3025.22 | 0.4012 |
 | 10 | 2651.44 | 0.4029 |
 
+![Optimal K Value](optimal_k_value.png)
+
 ### 💡 What the numbers tell us
 * **Why I selected K=4**: While $K=5$ shows a slightly higher silhouette score, my elbow analysis (which I validated mathematically using the `KneeLocator` package) showed that $K=4$ is the sweet spot. It gives a sharp reduction in WCSS (**6650.97**) and yields highly distinct, interpretable customer groups that marketing teams can easily target.
 * **How the PCA components behave**:
@@ -73,6 +65,9 @@ To ensure the best possible marketing segmentation, I evaluated other popular cl
 * **Spectral Clustering**: This method maps data to a lower-dimensional space using graph theory. It has a high computational complexity of $O(N^3)$, making it highly unscalable for larger customer databases, and its output clusters are notoriously difficult to interpret for business/marketing applications compared to centroid-based clusters.
 * **Agglomerative Hierarchical Clustering (as a standalone primary algorithm)**: While useful for visualizing sub-clusters (dendrograms) and profiling centroids, it suffers from $O(N^2 \log N)$ time and $O(N^2)$ space complexity. It lacks the mathematical efficiency of K-Means for larger customer bases and cannot re-assign points once they are grouped in a hierarchy level.
 
+  ![K-Means Clustering](k_means.png)
+  ![Agglomerative Clustering](agglomerative.png)
+
 ---
 
 ## 👥 Customer Personas & Marketing Playbook
@@ -89,6 +84,8 @@ Using Hierarchical Agglomerative Clustering on the 3D PCA space, the customer ba
 | **Total Spending** | $221.96 | **$1,236.59** | $165.70 | **$1,190.39** |
 | **Monthly Web Visits** | 6.3 | 3.6 | 6.7 | 3.7 |
 | **Household Status** | 100% Partnered | 100% Partnered | 99.3% Single | 100% Single |
+
+![Customer Personas](customer_personas.png)
 
 ### Actionable Strategies
 
