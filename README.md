@@ -123,7 +123,7 @@ Follow this quick-start guide to run the notebook on your local machine:
 
 ### 1. Clone and Navigate
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/sanjaynayak1224/SmartCart_E-Commerce--A_Customer_Segmentation_System.git)
 cd SmartCart_E-Commerce--A_Customer_Segmentation_System
 ```
 
